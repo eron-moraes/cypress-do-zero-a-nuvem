@@ -66,15 +66,27 @@ describe('Central de Atendimento ao Cliente TAT', () => {
       .clear()
       .should('have.value', '')
 
-      cy.get('#phone')
+    cy.get('#phone')
       .type('1290000000')
       .should('have.value', '1290000000')
       .clear()
       .should('have.value', '')
   })
-  it.only('exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios.', () => {
+  it('exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios.', () => {
     cy.get('button[type="submit"]').click()
 
     cy.get('.error').should('be.visible')
+  })
+  it.only('envia o formuário com sucesso usando um comando customizado', () => {
+    const data = {
+      firstName: 'Eron',
+      lastName: 'Moraes',
+      email: 'eron.moraes7@gmail.com',
+      text: 'Teste'
+    }
+    cy.fillMandatoryFieldsAndSubmit(data)
+
+    cy.get('.success').should('be.visible')
+
   })
 })
