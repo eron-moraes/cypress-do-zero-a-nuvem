@@ -11,7 +11,8 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     cy.get('#lastName').type('Moraes')
     cy.get('#email').type('eron.moraes7@gmail.com')
     cy.get('#open-text-area').type('Obrigado!')
-    cy.get('button[type="submit"]').click()
+    cy.contains('button', 'Enviar').click()
+
 
     //Mensagem enviada com sucesso.
     cy.get('.success').should('be.visible')
@@ -22,7 +23,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     cy.get('#lastName').type('Moraes')
     cy.get('#email').type('eron.moraes7@gmail,com')
     cy.get('#open-text-area').type('Obrigado!')
-    cy.get('button[type="submit"]').click()
+    cy.contains('button', 'Enviar').click()
 
     cy.get('.error').should('be.visible')
   })
@@ -37,7 +38,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     cy.get('#email').type('eron.moraes7@gmail.com')
     cy.get('#open-text-area').type('Obrigado!')
     cy.get('#phone-checkbox').click()
-    cy.get('button[type="submit"]').click()
+    cy.contains('button', 'Enviar').click()
 
     cy.get('.error').should('be.visible')
   })
@@ -73,20 +74,41 @@ describe('Central de Atendimento ao Cliente TAT', () => {
       .should('have.value', '')
   })
   it('exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios.', () => {
-    cy.get('button[type="submit"]').click()
+    cy.contains('button', 'Enviar').click()
 
     cy.get('.error').should('be.visible')
   })
-  it.only('envia o formuário com sucesso usando um comando customizado', () => {
-    const data = {
-      firstName: 'Eron',
-      lastName: 'Moraes',
-      email: 'eron.moraes7@gmail.com',
-      text: 'Teste'
-    }
-    cy.fillMandatoryFieldsAndSubmit(data)
+  it('envia o formuário com sucesso usando um comando customizado', () => {
+    // const data = {
+    //   firstName: 'Eron',
+    //   lastName: 'Moraes',
+    //   email: 'eron.moraes7@gmail.com',
+    //   text: 'Teste'
+    // }
+    //cy.fillMandatoryFieldsAndSubmit(data)
+    cy.fillMandatoryFieldsAndSubmit()
 
     cy.get('.success').should('be.visible')
 
+  })
+  it('seleciona um produto (YouTube) por seu texto', () => {
+    cy.get('#product')
+    .select('YouTube')
+    .should('have.value', 'youtube')
+  })
+  it('seleciona um produto (Mentoria) por seu valor (value)', () => {
+    cy.get('#product')
+    .select('mentoria')
+    .should('have.value', 'mentoria')
+  })
+  it('seleciona um produto (Blog) por seu índice', () => {
+    cy.get('#product')
+    .select(1)
+    .should('have.value', 'blog')
+  })
+  it.only('marca o tipo de atendimento "Feedback"', () => {
+    cy.get('input[type="radio"][value="feedback"]')
+    .check()
+    .should('be.checked')
   })
 })
