@@ -32,7 +32,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
       .type('abcde')
       .should('have.value', '')
   })
-  it.only('exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário', () => {
+  it('exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário', () => {
     cy.get('#firstName').type('Eron')
     cy.get('#lastName').type('Moraes')
     cy.get('#email').type('eron.moraes7@gmail.com')
@@ -148,5 +148,10 @@ describe('Central de Atendimento ao Cliente TAT', () => {
       .should((input) => {
         expect(input[0].files[0].name).to.equal('example.json')
       })
+  })
+  it.only('verifica que a política de privacidade abre em outra aba sem a necessidade de um clique', () => {
+    cy.contains('a', 'Política de Privacidade')
+    .should('have.attr', 'href', 'privacy.html')
+    .and('have.attr', 'target', '_blank')
   })
 })
